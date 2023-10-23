@@ -5,10 +5,14 @@ Hooks.on("createChatMessage", (message, option, user) => {
   let roll = {};
   if (game.modules.get("betterrolls5e") &&game.modules.get("betterrolls5e").active) roll = message.data.flags.betterrolls5e.entries.filter((t) => t.type === "multiroll")[0].entries[0].roll;
   else roll = message.roll;
+
+  console.log(message);
   
   let timestamp = message.data.timestamp;
   let username = message.user.data.name;
   let actorname = message.alias;
+  let details = message.data.document.flavor;
+  let roll_total = roll.total;
   let roll_result = roll.result;
   let roll_formula = roll.formula;
 
@@ -18,8 +22,10 @@ Hooks.on("createChatMessage", (message, option, user) => {
     roll: {
       username: username,
       actorname: actorname,
+      roll_total: roll_total,
       roll_result: roll_result,
       roll_formula: roll_formula,
+      details: details
     },
     style: game.settings.get("streamoverlay", "cssEditor"),
     html: game.settings.get("streamoverlay", "htmlEditor"),
